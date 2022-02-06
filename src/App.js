@@ -11,7 +11,13 @@ import DataContext from "./context/data-context";
 function App() {
   const [data, setData] = useState([]);
   const [itemBeforeEdit, setItemBeforeEdit] = useState({});
-  const [dataState, setDataState] = useState({ take: 10, skip: 0, group: [] });
+  const [dataState, setDataState] = useState({
+    take: 10,
+    skip: 0,
+    group: [],
+    sort: [],
+    filter: [],
+  });
   const [total, setTotal] = useState(0);
   /**
    * Request the data when the component mounts and when the dataState changes after a data operation is executed.
@@ -22,16 +28,31 @@ function App() {
     Axios.get("http://localhost:5000/api/products", {
       params: {
         take: dataState.take,
-        page: (dataState.skip + dataState.take) / dataState.take,
+        skip: dataState.skip,
+        // page: (dataState.skip + dataState.take) / dataState.take,
+        sort: dataState.sort,
+        filter: dataState.filter.filters,
       },
     }).then((response) => {
-      let parsedDataNew = mapTree(response.data.data, "items", (product) => {
+      console.log(response.data[0]);
+      let parsedDataNew = mapTree(response.data[0], "items", (product) => {
         return product;
       });
-      setTotal(response.data.total);
+      setTotal(response.data[1]);
       setData([...parsedDataNew]);
     });
   }, [dataState]);
+
+  /* then((response) => {
+      console.log(response.data[0]);
+      let parsedDataNew = mapTree(response.data.data, "items", (product) => {
+        return product;
+      });
+      console.log(response[1]);
+      setTotal(response.data.total);
+      setData([...parsedDataNew]);
+    });
+  }, [dataState]); */
 
   /**
    * Add a new empty item only to the local data.
