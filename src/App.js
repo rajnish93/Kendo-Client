@@ -31,7 +31,7 @@ function App() {
         skip: dataState.skip,
         // page: (dataState.skip + dataState.take) / dataState.take,
         sort: dataState.sort,
-        filter: dataState.filter.filters,
+        filter: dataState.filter?.filters,
       },
     }).then((response) => {
       console.log(response.data[0]);
@@ -225,7 +225,13 @@ function App() {
             editor="numeric"
             filter="numeric"
           />
-
+          <GridColumn
+            field="dateTime"
+            title="TimeStamp"
+            editor="date"
+            // format={"{0:dd-MM-yyyy hh:mm:ss a}"}
+            filter="date"
+          />
           <GridColumn cell={MyCommandCell} width="200px" />
         </Grid>
       </DataContext.Provider>
