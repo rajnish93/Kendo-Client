@@ -25,14 +25,11 @@ function App() {
   useEffect(() => {
     // console.log(toODataString(dataState));
     console.log(dataState);
-    Axios.get("http://localhost:5000/api/products", {
-      params: {
-        take: dataState.take,
-        skip: dataState.skip,
-        // page: (dataState.skip + dataState.take) / dataState.take,
-        sort: dataState.sort,
-        filter: dataState.filter?.filters,
-      },
+    Axios.post("http://localhost:5000/api/products", {
+      take: dataState.take,
+      skip: dataState.skip,
+      sort: dataState.sort,
+      filter: dataState.filter?.filters,
     }).then((response) => {
       console.log(response.data[0]);
       let parsedDataNew = mapTree(response.data[0], "items", (product) => {
