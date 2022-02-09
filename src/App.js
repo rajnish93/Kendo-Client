@@ -29,7 +29,7 @@ function App() {
       take: dataState.take,
       skip: dataState.skip,
       sort: dataState.sort,
-      filter: dataState.filter?.filters,
+      filters: dataState.filter?.filters,
     }).then((response) => {
       console.log(response.data[0]);
       let parsedDataNew = mapTree(response.data[0], "items", (product) => {
@@ -229,7 +229,7 @@ function App() {
             // format={"{0:dd-MM-yyyy hh:mm:ss a}"}
             filter="date"
           />
-          <GridColumn cell={MyCommandCell} width="200px" />
+          <GridColumn cell={MyCommandCell} filterable={false} width="200px" />
         </Grid>
       </DataContext.Provider>
     </div>
